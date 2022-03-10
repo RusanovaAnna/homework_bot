@@ -34,11 +34,11 @@ def send_message(bot, message):
             chat_id=TELEGRAM_CHAT_ID,
             text=message
         )
-        logger.info(
+        logging.info(
             f'Сообщение отправленно: {message}'
         )
     except Exception as error:
-        logger.error(
+        logging.error(
             f'Сообщение не отправленно: {error}'
         )
 
@@ -55,6 +55,7 @@ def get_api_answer(current_timestamp):
     else:
         return response.json()
 
+
 def check_response(response):
     """проверяет ответ API на корректность"""
     if type(response) is not dict:
@@ -62,11 +63,12 @@ def check_response(response):
     if type(response['homeworks']) is not list:
         raise TypeError('Домашнее задание прниходит не в виде списка')
     if ('homeworks') not in response:
-        logger.error('Отсутствует ключ homeworks')
+        logging.error('Отсутствует ключ homeworks')
         raise TypeError('Отсутствует ключ homeworks')
     if response.get('homeworks') is None:
         raise TypeError('Список homrworks пустой')
     return response.get('homeworks')
+
 
 def parse_status(homework):
     """извлекает из информации о конкретной домашней работе статус этой работы"""
@@ -84,9 +86,9 @@ def parse_status(homework):
         raise ValueError(
             f'Статус домашней работы {homework_status} некорректен'
         )
-        logger.error(stack_info=True)
     verdict = HOMEWORK_STATUSES[homework_status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+
 
 def check_tokens():
     """проверяет доступность переменных окружения"""
@@ -118,10 +120,11 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            logger.error(error, exc_info=True)
+            logging.error(error, exc_info=True)
             time.sleep(RETRY_TIME)
         else:
             logging.error('Другие сбои')
+
 
 if __name__ == '__main__':
     main()
