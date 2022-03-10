@@ -3,11 +3,10 @@ import logging
 import os
 import requests
 import time
+import telegram
+import telegram.ext
 
-from telegram import ReplyKeyboardMarkup
-from telegram.ext import CommandHandler, Updater
-
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -58,7 +57,6 @@ def get_api_answer(current_timestamp):
 
 def check_response(response):
     """проверяет ответ API на корректность"""
-    homework = response["homeworks"]
     if type(response) is not dict:
         raise TypeError('Ответ API не словарь')
     if type(response['homeworks']) is not list:
@@ -69,7 +67,6 @@ def check_response(response):
     if response.get('homeworks') is None:
         raise TypeError('Список homrworks пустой')
     return response.get('homeworks')
-
 
 def parse_status(homework):
     """извлекает из информации о конкретной домашней работе статус этой работы"""
@@ -90,8 +87,6 @@ def parse_status(homework):
         logger.error(stack_info=True)
     verdict = HOMEWORK_STATUSES[homework_status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-
-
 
 def check_tokens():
     """проверяет доступность переменных окружения"""
@@ -127,7 +122,6 @@ def main():
             time.sleep(RETRY_TIME)
         else:
             logging.error('Другие сбои')
-
 
 if __name__ == '__main__':
     main()
