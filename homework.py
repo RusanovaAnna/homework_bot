@@ -30,12 +30,6 @@ HOMEWORK_STATUSES = {
 }
 
 
-class ErrorNotCorrectStatusCode(Exception):
-    """Свой тип исключений."""
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
-
-
 def send_message(bot, message):
     """отправляет сообщение в Telegram чат."""
     logger = logging.getLogger(__name__)
@@ -65,7 +59,7 @@ def get_api_answer(current_timestamp):
     if response.status_code != HTTPStatus.OK:
         status = response.status_code
         logging.error(f'Ошибка {status}')
-        raise ErrorNotCorrectStatusCode(f'Ошибка {status}')
+        raise Exception.ErrorNotCorrectStatusCode(f'Ошибка {status}')
     else:
         try:
             res = response.json()
