@@ -31,12 +31,12 @@ HOMEWORK_STATUSES = {
 
 
 class Error(Exception):
-    """Base class for other exceptions"""
+    """Base class for other exceptions."""
     pass
 
 
 class ErrorNotCorrectStatusCode(Error):
-    """Свой тип исключений"""
+    """Свой тип исключений."""
     pass
 
 
