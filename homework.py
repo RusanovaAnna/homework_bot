@@ -30,16 +30,10 @@ HOMEWORK_STATUSES = {
 }
 
 
-class Error(Exception):
-    """Base class for other exceptions"""
-    pass
-
-
-class ErrorNotCorrectStatusCode(Error):
-    """
-    Свой тип исключений.
-    """
-    pass
+class ErrorNotCorrectStatusCode(Exception):
+    """Свой тип исключений."""
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
 
 
 def send_message(bot, message):
