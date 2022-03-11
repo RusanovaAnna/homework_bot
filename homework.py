@@ -29,11 +29,14 @@ HOMEWORK_STATUSES = {
     'rejected': 'Работа проверена: у ревьюера есть замечания.'
 }
 
+
 class Error(Exception):
+    """Base class for other exceptions"""
     pass
 
 
 class ErrorNotCorrectStatusCode(Error):
+    """Свой тип исключений"""
     pass
 
 
