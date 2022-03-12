@@ -1,14 +1,18 @@
-import os
-import telegram.ext
-import time
 import logging
+import os
+import time
+
 import requests
 import telegram
+import telegram.ext
+
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
+
 from http import HTTPStatus
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -54,18 +58,18 @@ def get_api_answer(current_timestamp):
     params = {'from_date': timestamp}
     try:
         response = requests.get(ENDPOINT, headers=HEADERS, params=params)
-    except Exception as error:
-        logging.error(f'Ошибка при запросе: {error}')
+    except ConnectionError as error:
+        logger.error(f'Ошибка при запросе: {error}')
         raise SystemError(f'Ошибка при запросе: {error}')
     if response.status_code != HTTPStatus.OK:
         status = response.status_code
-        logging.error(f'Ошибка {status}')
+        logger.error(f'Ошибка {status}')
         raise Exception.ErrorNotCorrectStatusCode(f'Ошибка {status}')
     else:
         try:
             res = response.json()
         except JSONDecodeError:
-            logging.error("Ошибка преобразования в JSON")
+            logger.error("Ошибка преобразования в JSON")
         return res
 
 
@@ -74,7 +78,7 @@ def check_response(response):
     if type(response) is not dict:
         raise TypeError('Ответ API не словарь')
     if 'homeworks' not in response:
-        logging.error('Отсутствует ключ homeworks')
+        logger.error('Отсутствует ключ homeworks')
         raise KeyError('Отсутствует ключ homeworks')
     if type(response['homeworks']) is not list:
         raise TypeError('Домашнее задание прниходит не в виде списка')
@@ -116,7 +120,7 @@ def check_tokens():
 def main():
     """Основная логика работы бота."""
     if not check_tokens():
-        logging.critical('Отсутствуют обязательные переменные окружения')
+        logger.critical('Отсутствуют обязательные переменные окружения')
         raise ValueError('Отсутствуют обязательные переменные окружения')
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
@@ -130,10 +134,10 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            logging.error(error, exc_info=True)
+            logger.error(error, exc_info=True)
             time.sleep(RETRY_TIME)
         else:
-            logging.error('Другие сбои')
+            logger.error('Другие сбои')
 
 
 if __name__ == '__main__':
