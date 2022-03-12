@@ -1,15 +1,15 @@
-import logging
 import os
-import requests
-import time
-import telegram
 import telegram.ext
-from http import HTTPStatus
-from dotenv import load_dotenv
+import time
+import logging
+import requests
+import telegram
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
+from http import HTTPStatus
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -41,8 +41,8 @@ def send_message(bot, message):
         logger.info(
             f'Сообщение отправленно: {message}'
         )
-    except Exception as error:
-        logging.error(
+    except TelegramError as error:
+        logger.error(
             f'Сообщение не отправленно: {error}'
         )
         raise telegram.TelegramError(f'Ошибка {error}')
@@ -56,6 +56,7 @@ def get_api_answer(current_timestamp):
         response = requests.get(ENDPOINT, headers=HEADERS, params=params)
     except Exception as error:
         logging.error(f'Ошибка при запросе: {error}')
+        raise SystemError(f'Ошибка при запросе: {error}')
     if response.status_code != HTTPStatus.OK:
         status = response.status_code
         logging.error(f'Ошибка {status}')
@@ -94,7 +95,7 @@ def parse_status(homework):
             'В ответе не содержится ключ status'
         )
     homework_status = homework.get('status')
-    if homework_status in HOMEWORK_STATUSES.keys():
+    if homework_status in HOMEWORK_STATUSES:
         verdict = HOMEWORK_STATUSES[homework_status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
