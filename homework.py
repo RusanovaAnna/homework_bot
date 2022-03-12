@@ -34,9 +34,11 @@ HOMEWORK_STATUSES = {
 }
 
 
+logger = logging.getLogger(__name__)
+
+
 def send_message(bot, message):
     """отправляет сообщение в Telegram чат."""
-    logger = logging.getLogger(__name__)
     try:
         bot.send_message(
             chat_id=TELEGRAM_CHAT_ID,
