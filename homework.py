@@ -41,7 +41,7 @@ def send_message(bot, message):
         logger.info(
             f'Сообщение отправленно: {message}'
         )
-    except TelegramError as error:
+    except telegram.TelegramError as error:
         logger.error(
             f'Сообщение не отправленно: {error}'
         )
