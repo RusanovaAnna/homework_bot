@@ -1,18 +1,17 @@
 import logging
 import os
 import time
+from http import HTTPStatus
 
 import requests
-import telegram
-import telegram.ext
 
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
 
-from http import HTTPStatus
-
+import telegram
+import telegram.ext
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -60,7 +59,7 @@ def get_api_answer(current_timestamp):
     params = {'from_date': timestamp}
     try:
         response = requests.get(ENDPOINT, headers=HEADERS, params=params)
-    except ConnectionError as error:
+    except requests.exceptions.RequestException as error:
         logger.error(f'Ошибка при запросе: {error}')
         raise SystemError(f'Ошибка при запросе: {error}')
     if response.status_code != HTTPStatus.OK:
