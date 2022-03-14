@@ -4,7 +4,6 @@ import time
 from http import HTTPStatus
 
 import requests
-
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
