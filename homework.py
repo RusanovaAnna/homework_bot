@@ -6,12 +6,12 @@ from http import HTTPStatus
 import requests
 import telegram
 import telegram.ext
-from dotenv import load_dotenv
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
 
+from dotenv import load_dotenv
 
 load_dotenv()
 
