@@ -4,14 +4,14 @@ import time
 from http import HTTPStatus
 
 import requests
+import telegram
+import telegram.ext
+from dotenv import load_dotenv
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
 
-import telegram
-import telegram.ext
-from dotenv import load_dotenv
 
 load_dotenv()
 
