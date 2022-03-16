@@ -10,7 +10,6 @@ try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json.decoder import JSONDecodeError
-
 from dotenv import load_dotenv
 
 load_dotenv()
