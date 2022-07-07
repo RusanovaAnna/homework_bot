@@ -6,11 +6,11 @@ python telegram bot - бот, оповещающий о статусе дома�
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone git@github.com:RusanovaAnna/api_final_yatube.git
+git clone git@github.com:RusanovaAnna/homework_bot.git
 ```
 
 ```
-cd api_final_yatube
+cd homework_bot
 ```
 
 Cоздать и активировать виртуальное окружение:
